@@ -12,6 +12,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class CoolWeatherDB {
 
@@ -76,7 +77,7 @@ public class CoolWeatherDB {
 			ContentValues values = new ContentValues();
 			values.put("city_name", city.getCityName());
 			values.put("city_code", city.getCityCode());
-			values.put("province_id", city.getId());
+			values.put("province_id", city.getProvinceId());
 			db.insert("City", null, values);
 		}		
 	}
@@ -92,6 +93,7 @@ public class CoolWeatherDB {
 				city.setCityName(cursor.getString(cursor.getColumnIndex("city_name")));
 				city.setCityCode(cursor.getString(cursor.getColumnIndex("city_code")));
 				city.setProvinceId(provinceId);
+				list.add(city);
 			}while(cursor.moveToNext());
 		}
 		if(cursor != null){
@@ -114,7 +116,7 @@ public class CoolWeatherDB {
 	/*	从数据库中读取某城市下所有的县的信息		*/
 	public List<Country> loadCountry(int cityId){
 		List<Country> list = new ArrayList<Country>();
-		Cursor cursor = db.query("Countrty", null, "city_id = ?" ,new String[]{ String.valueOf(cityId) } ,null ,null ,null );
+		Cursor cursor = db.query("Country", null, "city_id = ?" ,new String[]{ String.valueOf(cityId) } ,null ,null ,null );
 		if(cursor.moveToFirst()){
 			do{
 				Country country = new Country();
