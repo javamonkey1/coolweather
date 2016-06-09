@@ -2,5 +2,6 @@
 
     <string name="app_name">酷我天气</string>
     <string name="create_table">CREAT TABLE</string>
+    <string name="sign">~</string>
 
 </resources>

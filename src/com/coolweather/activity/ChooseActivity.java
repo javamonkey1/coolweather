@@ -14,9 +14,11 @@ import com.coolweather.util.Utility;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -75,10 +77,26 @@ public class ChooseActivity extends Activity {
 				}else if(currentLevel == LEVEL_CITY){
 					selecteCity = cityList.get(position);
 					queryCountry();
+				}else if(currentLevel == LEVEL_COUNTRY){
+					String countryCode = countryList.get(position).getCountryCode();
+					Intent intent = new Intent(ChooseActivity.this,WeatherActivity.class);
+					intent.putExtra("country_code", countryCode);
+					startActivity(intent);
+					finish();
 				}
 			}		
 		});
 		queryProvinces();
+		
+		
+		//如果以前已经选过此县， 那么天气信息已经存到本机， 可以直接跳到下一个页面
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		if(prefs.getBoolean("city_selected", false)){
+			Intent intent = new Intent(ChooseActivity.this,WeatherActivity.class);
+			startActivity(intent);
+			finish();
+			return;
+		}
 	}
 	
 	public void initialize(){
