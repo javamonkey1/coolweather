@@ -55,6 +55,8 @@ public class ChooseActivity extends Activity {
 	
 	private City selecteCity;     //选中的市
 	
+	private boolean isFromWeatherActivity;    //判断是不是从WeatherActivity页面中跳过来的
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -88,10 +90,12 @@ public class ChooseActivity extends Activity {
 		});
 		queryProvinces();
 		
-		
+		isFromWeatherActivity = getIntent().getBooleanExtra("weather_code", false);
+
 		//如果以前已经选过此县， 那么天气信息已经存到本机， 可以直接跳到下一个页面
+		//已经选择的城市且不是从 WeatherActivity 跳转过来的，才会直接跳转到 WeatherActivity
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		if(prefs.getBoolean("city_selected", false)){
+		if(prefs.getBoolean("city_selected", false) && !isFromWeatherActivity){
 			Intent intent = new Intent(ChooseActivity.this,WeatherActivity.class);
 			startActivity(intent);
 			finish();
@@ -243,6 +247,10 @@ public class ChooseActivity extends Activity {
 		}else if(currentLevel == LEVEL_CITY){
 			queryProvinces();
 		}else{
+			if(isFromWeatherActivity){
+				Intent intent = new Intent(this,WeatherActivity.class);
+				startActivity(intent);
+			}
 			finish();
 		}
 	}
