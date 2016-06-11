@@ -90,7 +90,7 @@ public class ChooseActivity extends Activity {
 		});
 		queryProvinces();
 		
-		isFromWeatherActivity = getIntent().getBooleanExtra("weather_code", false);
+		isFromWeatherActivity = getIntent().getBooleanExtra("from_weather_activity", false);
 
 		//如果以前已经选过此县， 那么天气信息已经存到本机， 可以直接跳到下一个页面
 		//已经选择的城市且不是从 WeatherActivity 跳转过来的，才会直接跳转到 WeatherActivity
