@@ -1,6 +1,7 @@
 package com.coolweather.activity;
 
 import com.coolweather.app.R;
+import com.coolweather.service.AutoUpdateService;
 import com.coolweather.util.HttpCallbackListener;
 import com.coolweather.util.HttpUtil;
 import com.coolweather.util.Utility;
@@ -93,7 +94,7 @@ public class WeatherActivity extends Activity implements OnClickListener{
 					}
 				}else if("weatherCode".equals(type)){
 					if(!TextUtils.isEmpty(response)){
-						Log.d("WeatherActivity", response);
+						Log.d("WeatherActivity", this.toString());
 						Utility.handleWeatherResponse(WeatherActivity.this, response);
 						runOnUiThread(new Runnable() {
 							public void run() {
@@ -151,6 +152,8 @@ public class WeatherActivity extends Activity implements OnClickListener{
 		weatherDespText.setText(prefs.getString("weather_desp", ""));
 		temp1Text.setText(prefs.getString("temp1", ""));
 		temp2Text.setText(prefs.getString("temp2", ""));
+		Intent intent = new Intent(this, AutoUpdateService.class);
+		startService(intent);
 	}
 
 
